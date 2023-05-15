@@ -1,13 +1,64 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.preload-juggle {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    margin-top: -150px;
+    left: 50%;
+    margin-left: -150px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.preload-juggle div {
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    border-radius: 10.5px;
+    margin-top: 150px;
+    margin-left: 150px;
+    animation: juggle 2.1s linear infinite;
+}
+
+.preload-juggle div:nth-child(1) {
+    animation-delay: -0.7s;
+}
+
+.preload-juggle div:nth-child(2) {
+    animation-delay: -1.4s;
+}
+
+@keyframes juggle {
+    0% {
+        transform: translateX(0px) translateY(0px);
+    }
+    12.5% {
+        transform: translateX(25px) translateY(-55px) scale(1.1);
+        background: white;
+    }
+    25% {
+        transform: translateX(50px) translateY(0px);
+        animation-timing-function: ease-out;
+    }
+    37.5% {
+        transform: translateX(25px) translateY(55px);
+    }
+    50% {
+        transform: translateX(0px) translateY(0px);
+    }
+    62.5% {
+        transform: translateX(-25px) translateY(-55px) scale(1.1);
+        animation-timing-function: ease-in;
+    }
+    75% {
+        transform: translateX(-50px) translateY(0px);
+        animation-timing-function: ease-out;
+    }
+    87.5% {
+        transform: translateX(-25px) translateY(55px);
+    }
+    100% {
+        transform: translateX(0px) translateY(0px);
+    }
 }
