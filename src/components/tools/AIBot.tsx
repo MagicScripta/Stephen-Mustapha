@@ -134,7 +134,6 @@ const AIBot = () => {
   // Awaiting bot reply from open ai
   const requestBotMessage = async () => {
     let newChatList: JSX.Element[] = []
-    console.log(chat)
     fetch('https://openai-sigma-six.vercel.app/get-reply', {
       method: 'POST',
       headers: {
@@ -146,7 +145,6 @@ const AIBot = () => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response)
         const botReply = response
           ? response
           : "OpenAI didn't give much of a reply there sorry about that"
@@ -164,7 +162,7 @@ const AIBot = () => {
 
   const sendUserMessage = (message: string) => {
     let newChat = [...chat]
-    newChat.push({ role: 'user ', content: message })
+    newChat.push({ role: 'user', content: message })
     setChat(newChat)
     localStorage.setItem('chat', JSON.stringify(newChat))
     setUserReplied(true)
