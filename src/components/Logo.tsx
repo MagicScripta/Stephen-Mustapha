@@ -4,6 +4,7 @@ import VerticalHelper from './VerticalHelper'
 interface LogoProps {
   linkName: string
   link: string
+  size: number
   src: string
 }
 
@@ -11,29 +12,14 @@ const Logo = (props: LogoProps) => {
   const [isHover, setIsHover] = useState(false)
   const [logoSize, setlogoSize] = useState(0)
 
-  const hover = () => {
-    setIsHover(true)
-  }
-  const noHover = () => {
-    setIsHover(false)
-  }
+  const hover = () => setIsHover(true)
+  const noHover = () => setIsHover(false)
 
-  useEffect(() => {
-    setlogoSize(
-      document.getElementById('top') === null
-        ? 0 // @ts-ignore
-        : Math.round(document.getElementById('top').clientHeight / 2)
-    )
-  }, [document.getElementById('top')])
-
-  useEffect(() => {
-    let divisor = isHover ? 1.6 : 2
-    setlogoSize(
-      document.getElementById('top') === null
-        ? 0 // @ts-ignore
-        : Math.round(document.getElementById('top').clientHeight / divisor)
-    )
-  }, [isHover])
+  useEffect(
+    () =>
+      isHover ? setlogoSize(props.size / 1.6) : setlogoSize(props.size / 2),
+    [isHover, props.size]
+  )
 
   return (
     <a

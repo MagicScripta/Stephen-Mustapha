@@ -4,6 +4,7 @@ import '../circles.css'
 
 interface toolsProps {
   name: string
+  size: number
   index: number
   link: string
   className: string
@@ -25,20 +26,13 @@ const Tool = (props: toolsProps) => {
 
   const noHover = () => {
     setIsHover(false)
-    setToolSize(
-      document.getElementById('tools') === null
-        ? 0 // @ts-ignore
-        : Math.round(document.getElementById('tools').clientHeight / 2)
-    )
   }
 
-  useEffect(() => {
-    setToolSize(
-      document.getElementById('tools') === null
-        ? 0 // @ts-ignore
-        : Math.round(document.getElementById('tools').clientHeight / 2)
-    )
-  }, [])
+  useEffect(
+    () =>
+      isHover ? setToolSize(props.size / 1.8) : setToolSize(props.size / 2),
+    [isHover, props.size]
+  )
 
   return (
     <a

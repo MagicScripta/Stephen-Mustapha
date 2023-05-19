@@ -7,6 +7,7 @@ import AIBot from './tools/AIBot'
 
 interface displayProps {
   displayIndex: number
+  centerConsoleWidth: number
 }
 
 const MainDisplay = (props: displayProps) => {
@@ -18,7 +19,7 @@ const MainDisplay = (props: displayProps) => {
     case 3:
       return <SpaceApps />
     case 4:
-      return <AIBot />
+      return <AIBot centerConsoleWidth={props.centerConsoleWidth} />
     default:
       return <Experience />
   }

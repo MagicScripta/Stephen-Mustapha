@@ -4,10 +4,12 @@ import { getMainBG } from '../tools'
 
 interface ColorSchemeProps {
   schemeNumber: number
+  parentHeight: number
 }
 
 const ColorScheme = (props: ColorSchemeProps) => {
   const [isHover, setIsHover] = useState(false)
+  const [height, setHeight] = useState(props.parentHeight)
   const [isSelected, setIsSelected] = useState(false)
   const [size, setSize] = useState(0)
 
@@ -18,11 +20,6 @@ const ColorScheme = (props: ColorSchemeProps) => {
     setIsHover(false)
   }
 
-  const getOurHeight = () => {
-    return document.getElementById('color-schemes') === null
-      ? 0 // @ts-ignore
-      : document.getElementById('color-schemes').clientHeight
-  }
   const setScheme = () => {
     localStorage.setItem('colorScheme', JSON.stringify(props.schemeNumber))
     window.dispatchEvent(new Event('ThemeChange'))
@@ -43,13 +40,14 @@ const ColorScheme = (props: ColorSchemeProps) => {
       window.removeEventListener('ThemeChange', () => handleStorage())
   }, [props.schemeNumber])
 
+  useEffect(() => setHeight(props.parentHeight), [props.parentHeight])
   useEffect(() => {
     isSelected
-      ? setSize(Math.round(getOurHeight() * 0.65))
+      ? setSize(Math.round(height * 0.65))
       : isHover
-      ? setSize(Math.round(getOurHeight()) * 0.8)
-      : setSize(Math.round(getOurHeight() * 0.5))
-  }, [isHover, document.getElementById('color-schemes'), isSelected])
+      ? setSize(Math.round(height) * 0.8)
+      : setSize(Math.round(height * 0.5))
+  }, [isHover, height, isSelected])
 
   return (
     <VerticalHelper

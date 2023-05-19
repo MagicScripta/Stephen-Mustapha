@@ -12,6 +12,7 @@ import {
 } from '../../../tools'
 
 interface chatUserProps {
+  size: number
   startActive: boolean
   message?: string
   sendMessage?: Function
@@ -22,18 +23,12 @@ const ChatUserMessage = (props: chatUserProps) => {
   let [scheme, setScheme] = useState(getInitialScheme())
   let [message, setMessage] = useState(props.message ? props.message : '')
   const [isActive, setIsActive] = useState(props.startActive)
-  const [baseSize, setBaseSize] = useState(0)
+  const [baseSize, setBaseSize] = useState(Math.round(props.size / 3))
   const { transcript, listening, resetTranscript } = useSpeechRecognition()
   const startListening = () =>
     SpeechRecognition.startListening({ continuous: true })
 
-  useEffect(() => {
-    setBaseSize(
-      document.getElementById('chat-history') === null
-        ? 0 // @ts-ignore
-        : Math.round(document.getElementById('chat-history').clientHeight / 3)
-    )
-  }, [])
+  useEffect(() => setBaseSize(Math.round(props.size / 4)), [props.size])
 
   useEffect(() => {
     if (isActive) setMessage(transcript)

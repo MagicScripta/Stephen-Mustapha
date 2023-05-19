@@ -4,20 +4,14 @@ import { getBodyText, getInitialScheme, getPeripheralBG } from '../../../tools'
 
 interface chatBotProps {
   message: string
+  size: number
 }
 
 const ChatBotMessage = (props: chatBotProps) => {
   let [scheme, setScheme] = useState(getInitialScheme())
-  const [baseSize, setBaseSize] = useState(0)
+  const [baseSize, setBaseSize] = useState(props.size)
 
-  useEffect(() => {
-    setBaseSize(
-      document.getElementById('chat-history') === null
-        ? 0 // @ts-ignore
-        : Math.round(document.getElementById('chat-history').clientHeight / 3)
-    )
-  }, [])
-
+  useEffect(() => setBaseSize(Math.round(props.size / 4)), [props.size])
   useEffect(() => {
     const handleStorage = () => {
       let scheme = localStorage.getItem('colorScheme')

@@ -2,6 +2,9 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
+      gridTemplateRows: {
+        7: 'repeat(10, minmax(0, 1fr))',
+      },
       colors: {
         pbg1: '#606C38',
         mbg1: '#283618',

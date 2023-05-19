@@ -22,20 +22,74 @@ import Waiting from './components/Waiting'
 
 const Desktop = () => {
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isLandscape, setIsLandscape] = useState(true)
   const [scheme, setScheme] = useState(getInitialScheme())
   const [currentPage, setCurrentPage] = useState(0)
   const [profileSize, setProfileSize] = useState(0)
+  const [consoleHeight, setConsoleHeight] = useState(0)
+  const [pageWidth, setPageWidth] = useState(0)
+  const [centerConsoleWidth, setCenterConsoleWidth] = useState(0)
+  const [sideConsoleSize, setSideConsoleSize] = useState(0)
+  const [schemesSize, setSchemesSize] = useState(0)
   const [topSize, setTopSize] = useState(0)
   const [botSize, setBotSize] = useState(0)
   const [titleSize, setTitleSize] = useState(0)
   const [textSize, setTextSize] = useState(0)
-  const [pageSize, setPageSize] = useState(0)
+  const [pageHeight, setPageHeight] = useState(0)
 
   window.addEventListener('load', function () {
     setTimeout(function () {
       setIsLoaded(true)
     }, 1500)
   })
+
+  const setAllSizes = () => {
+    setIsLandscape(window.innerHeight < window.innerWidth)
+    setPageHeight(
+      document.getElementById('full-console') === null
+        ? 0 // @ts-ignore
+        : document.getElementById('full-console').clientHeight
+    )
+    setPageWidth(
+      document.getElementById('full-console') === null
+        ? 0 // @ts-ignore
+        : document.getElementById('full-console').clientWidth
+    )
+    setCenterConsoleWidth(
+      document.getElementById('center-console') === null
+        ? 0 // @ts-ignore
+        : document.getElementById('center-console').clientWidth
+    )
+    setSchemesSize(
+      document.getElementById('color-schemes') === null
+        ? 0 // @ts-ignore
+        : document.getElementById('color-schemes').clientHeight
+    )
+    if (isLandscape) {
+      setSideConsoleSize(
+        document.getElementById('right-console') === null
+          ? 0 // @ts-ignore
+          : document.getElementById('right-console').clientWidth
+      )
+    } else {
+      setSideConsoleSize(
+        document.getElementById('right-console') === null
+          ? 0 // @ts-ignore
+          : document.getElementById('right-console').clientHeight
+      )
+    }
+  }
+
+  useEffect(() => setAllSizes())
+  window.onresize = () => setAllSizes()
+
+  useEffect(
+    () =>
+      isLandscape
+        ? setConsoleHeight(Math.round((pageHeight * 4) / 5))
+        : setConsoleHeight(pageHeight - Math.round(pageHeight / 20)),
+    [pageHeight]
+  )
 
   useEffect(() => {
     const handleStorage = () => {
@@ -51,52 +105,16 @@ const Desktop = () => {
   }, [])
 
   useEffect(() => {
-    setPageSize(
-      document.getElementById('full-console') === null
-        ? 0 // @ts-ignore
-        : document.getElementById('full-console').clientHeight
-    )
-  }, [])
-
-  useEffect(() => {
-    setProfileSize(
-      document.getElementById('top') === null
-        ? 0 // @ts-ignore
-        : Math.round(document.getElementById('top').clientHeight / 1.3)
-    )
-  }, [profileSize])
-
-  useEffect(() => {
-    setTopSize(
-      document.getElementById('center-console') === null
-        ? 0
-        : Math.round(
-            // @ts-ignore
-            document.getElementById('center-console').clientHeight / 5.5
-          )
-    )
-    setBotSize(
-      document.getElementById('center-console') === null
-        ? 0 // @ts-ignore
-        : document.getElementById('center-console').clientHeight - topSize
-    )
-    setTitleSize(
-      document.getElementById('right-console') === null
-        ? 0
-        : Math.round(
-            // @ts-ignore
-            document.getElementById('right-console').clientWidth / 10
-          )
-    )
-    setTextSize(
-      document.getElementById('center-console') === null
-        ? 0
-        : Math.round(
-            // @ts-ignore
-            document.getElementById('center-console').clientWidth / 20
-          )
-    )
-  }, [])
+    if (isLandscape) {
+      setTopSize(Math.round(consoleHeight / 5.5))
+    } else {
+      setTopSize(Math.round(consoleHeight / 10))
+    }
+    setProfileSize(topSize / 1.2)
+    setBotSize(consoleHeight - topSize)
+    setTitleSize(Math.round(sideConsoleSize / 10))
+    setTextSize(centerConsoleWidth / 20)
+  }, [pageHeight, centerConsoleWidth, sideConsoleSize, consoleHeight, topSize])
 
   return (
     <div className={`h-screen w-screen overflow-hidden grid grid-cols-1`}>
@@ -107,42 +125,63 @@ const Desktop = () => {
         )} overflow-hidden flex flex-col`}
       >
         <div
-          className={`flex flex-row w-1/5 mx-auto`}
-          style={{ height: Math.round(pageSize / 10) + 'px' }}
+          className={`flex mx-auto ${isLandscape ? `w-1/5 flex-row` : `w-3/5`}`}
+          style={
+            isLandscape
+              ? { height: Math.round(pageHeight / 10) }
+              : {
+                  minHeight: Math.round(pageHeight / 20),
+                  height: Math.round(pageHeight / 20),
+                }
+          }
           id={`color-schemes`}
         >
-          <ColorScheme schemeNumber={1} />
-          <ColorScheme schemeNumber={2} />
-          <ColorScheme schemeNumber={3} />
-          <ColorScheme schemeNumber={4} />
+          <ColorScheme schemeNumber={1} parentHeight={schemesSize} />
+          <ColorScheme schemeNumber={2} parentHeight={schemesSize} />
+          <ColorScheme schemeNumber={3} parentHeight={schemesSize} />
+          <ColorScheme schemeNumber={4} parentHeight={schemesSize} />
         </div>
-        <div className={`text-white grid grid-cols-7 gap-4 h-4/5`}>
+        <div
+          className={`text-white grid gap-4 ${
+            isLandscape ? `grid-cols-7 ` : `grid-rows-7 w-5/6 mx-auto `
+          } h-full pb-10`}
+          style={{ height: consoleHeight }}
+        >
           <div
             id={`left-console`}
-            className={`grid grid-rows-3 w-5/6 mr-0 ml-auto rounded-lg col-span-2`}
+            className={`mr-0 ml-auto rounded-lg ${
+              isLandscape
+                ? `grid grid-rows-3 col-span-2 w-5/6`
+                : `grid grid-cols-3 row-span-2 min-h-full min-w-full`
+            }`}
           >
             <Banner
               name={'EXPERIENCE'}
               index={0}
               border={true}
               setDisplay={setCurrentPage}
+              sideConsoleSize={sideConsoleSize}
             />
             <Banner
               name={'SPORTS'}
               index={1}
               border={true}
               setDisplay={setCurrentPage}
+              sideConsoleSize={sideConsoleSize}
             />
             <Banner
               name={'GAMING'}
               index={2}
               border={true}
               setDisplay={setCurrentPage}
+              sideConsoleSize={sideConsoleSize}
             />
           </div>
           <div
             id={`center-console`}
-            className={`flex flex-col px-3 col-span-3 font-main text-2xl overflow-hidden h-full`}
+            className={`flex flex-col font-main text-2xl overflow-hidden ${
+              isLandscape ? `px-3 col-span-3 h-full ` : `row-span-6 h-full`
+            }`}
           >
             <div
               id={'top'}
@@ -173,11 +212,13 @@ const Desktop = () => {
                   link={'https://github.com/MagicScripta'}
                   linkName={'Github'}
                   src={github}
+                  size={topSize}
                 />
                 <Logo
                   link={'https://www.linkedin.com/in/stephen-mustapha-ng/'}
                   linkName={'LinkedIn'}
                   src={linkedin}
+                  size={topSize}
                 />
                 <Logo
                   link={
@@ -185,6 +226,7 @@ const Desktop = () => {
                   }
                   linkName={'Stack'}
                   src={stack}
+                  size={topSize}
                 />
               </div>
             </div>
@@ -200,18 +242,27 @@ const Desktop = () => {
                 scheme
               )}`}
             >
-              <MainDisplay displayIndex={currentPage} />
+              <MainDisplay
+                displayIndex={currentPage}
+                centerConsoleWidth={centerConsoleWidth}
+              />
             </div>
           </div>
           <div
             id={`right-console`}
-            className={`flex flex-col ml-0 w-5/6 col-span-2 overflow-hidden`}
+            className={`flex overflow-hidden ${
+              isLandscape
+                ? `ml-0 w-5/6 col-span-2 flex-col `
+                : `row-span-2 min-w-full flex-row `
+            }`}
           >
             <div
               id={`tools`}
-              className={`h-full flex flex-col mb-1 rounded-t-lg font-[stencil] ${getMainBG(
+              className={`h-full w-full flex flex-col font-[stencil] ${getMainBG(
                 scheme
-              )} overflow-hidden`}
+              )} overflow-hidden ${
+                isLandscape ? `mb-1 rounded-t-lg` : `rounded-l-lg`
+              }`}
             >
               <p
                 style={{ fontSize: titleSize + 'px' }}
@@ -223,6 +274,7 @@ const Desktop = () => {
               <div className={`grid grid-cols-2 h-full`}>
                 <Tool
                   index={4}
+                  size={sideConsoleSize}
                   name={`CHATBOT`}
                   link={chatBot}
                   className={`col-span-2 bg-blue-400`}
@@ -232,9 +284,9 @@ const Desktop = () => {
             </div>
             <div
               id={`awards`}
-              className={`h-full flex flex-col pt-1 rounded-b-lg font-[stencil] overflow-hidden ${getMainBG(
-                scheme
-              )}`}
+              className={`h-full w-full flex flex-col font-[stencil] ${
+                isLandscape ? `pt-1 rounded-b-lg` : `rounded-r-lg`
+              } overflow-hidden ${getMainBG(scheme)}`}
             >
               <p
                 style={{ fontSize: titleSize + 'px' }}
@@ -249,6 +301,7 @@ const Desktop = () => {
                   border={false}
                   index={3}
                   setDisplay={setCurrentPage}
+                  sideConsoleSize={sideConsoleSize}
                 />
               </div>
             </div>

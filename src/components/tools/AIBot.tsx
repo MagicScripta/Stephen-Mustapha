@@ -8,7 +8,11 @@ interface ChatObject {
   content: string
 }
 
-const AIBot = () => {
+interface BotProps {
+  centerConsoleWidth: number
+}
+
+const AIBot = (props: BotProps) => {
   const scrollbar = React.useRef<Scrollbars>(null)
   const [chatKey, setChatKey] = useState(0)
   const [chat, setChat] = useState<ChatObject[]>([])
@@ -29,7 +33,7 @@ const AIBot = () => {
 
   const reloadChat = () => {
     let chatStorage = localStorage.getItem('chat')
-    let loadedChat = chatStorage ? JSON.parse(chatStorage) : ''
+    let loadedChat = chatStorage ? JSON.parse(chatStorage) : []
     if (chatStorage) {
       setChat(loadedChat)
     } else {
@@ -41,16 +45,23 @@ const AIBot = () => {
     let tempKey = chatKey
     for (let message of loadedChat) {
       if (message.role === 'user' && message.content) {
+        console.log(newChatList)
         newChatList.push(
           <ChatUserMessage
             startActive={false}
             message={message.content}
             key={tempKey}
+            size={props.centerConsoleWidth}
           />
         )
       } else if (message.role === 'assistant' && message.content) {
+        console.log(newChatList)
         newChatList.push(
-          <ChatBotMessage message={message.content} key={tempKey} />
+          <ChatBotMessage
+            message={message.content}
+            key={tempKey}
+            size={props.centerConsoleWidth}
+          />
         )
       }
       tempKey += 1
@@ -87,6 +98,7 @@ const AIBot = () => {
         message={`Hey, welcome to my implementation of the ChatGPT API. This tool will take your voice input, transcribe it to text and use that with the gpt-3.5-turbo model of open AI to have a friendly conversation with you.
             Click on the profile picture to the right to start or stop the recording, you have options to clear the text and send it right under.`}
         key={chatKey}
+        size={props.centerConsoleWidth}
       />
     )
     setChatKey(chatKey + 1)
@@ -125,6 +137,7 @@ const AIBot = () => {
         sendMessage={sendUserMessage}
         startOver={startOver}
         key={chatKey}
+        size={props.centerConsoleWidth}
       />
     )
     setChatKey(chatKey + 1)
@@ -153,7 +166,13 @@ const AIBot = () => {
         setChat(newChat)
         localStorage.setItem('chat', JSON.stringify(newChat))
         newChatList.push(...chatComponentsList)
-        newChatList.push(<ChatBotMessage message={botReply} key={chatKey} />)
+        newChatList.push(
+          <ChatBotMessage
+            message={botReply}
+            key={chatKey}
+            size={props.centerConsoleWidth}
+          />
+        )
         setChatKey(chatKey + 1)
         setChatComponentsList(newChatList)
         setUserReplyNeeded(true)
