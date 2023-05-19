@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import VerticalHelper from './VerticalHelper'
 import { getInitialScheme, getMainBorder, getPeripheralBorder } from '../tools'
-import sports from '../assets/sports.jpg'
-import earth from '../assets/earth.jpg'
-import experience from '../assets/experience.jpg'
-import gaming from '../assets/gaming.jpg'
 
 interface aboutProps {
   name: string
@@ -34,19 +30,19 @@ const Banner = (props: aboutProps) => {
 
   useEffect(
     () => setTextSize(props.sideConsoleSize / 10),
-    [props.sideConsoleSize],
+    [props.sideConsoleSize]
   )
 
   const getBG = () => {
     switch (props.index) {
       case 1:
-        return sports
+        return `bg-sports`
       case 2:
-        return gaming
+        return `bg-gaming`
       case 3:
-        return earth
+        return `bg-earth`
       default:
-        return experience
+        return `bg-experience`
     }
   }
 
@@ -59,12 +55,13 @@ const Banner = (props: aboutProps) => {
       style={{ fontSize: textSize + 'px' }}
       className={`font-[stencil] cursor-pointer grid grid-cols-1`}
     >
-      <img
-        src={getBG()}
-        className={`ease-in-out duration-300 z-0 ${getMainBorder(scheme)} ${
+      <div
+        className={`bg-cover ${getBG()} ease-in-out duration-300 z-0 ${getMainBorder(
+          scheme
+        )} ${
           isHover ? `blur-[2px]` : `blur-[1px] border-2`
         } h-full w-full col-start-1 row-start-1`}
-        alt={`ERR`} />
+      />
       <div
         className={`bg-black h-full w-full col-start-1 row-start-1 z-10 opacity-30`}
       />
@@ -79,7 +76,7 @@ const Banner = (props: aboutProps) => {
           </p>
         }
         className={`col-start-1 row-start-1 z-20 ${getPeripheralBorder(
-          scheme,
+          scheme
         )} ${isHover && props.border ? `border-l-4` : ``}`}
       />
     </a>

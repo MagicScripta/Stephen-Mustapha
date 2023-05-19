@@ -144,7 +144,7 @@ const Desktop = () => {
         <div
           className={`text-white grid gap-4 ${
             isLandscape ? `grid-cols-7 ` : `grid-rows-7 w-5/6 mx-auto `
-          } h-full pb-10`}
+          } pb-10 overflow-hidden`}
           style={{ height: consoleHeight }}
         >
           <div
