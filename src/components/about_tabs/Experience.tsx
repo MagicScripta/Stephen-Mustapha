@@ -8,7 +8,7 @@ const Experience = () => {
         <a
           className={`font-bold hover:text-black pb-3`}
           target={`_blank`}
-          href={`https://www.rotulu.com/`}
+          href={`https://www.mun.ca/main/about/`}
         >
           Memorial University of Newfoundland
         </a>
