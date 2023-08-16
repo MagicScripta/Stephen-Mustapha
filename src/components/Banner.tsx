@@ -53,7 +53,7 @@ const Banner = (props: aboutProps) => {
       onMouseLeave={() => setIsHover(false)}
       id={'tab-' + props.name}
       style={{ fontSize: textSize + 'px' }}
-      className={`font-[stencil] cursor-pointer grid grid-cols-1`}
+      className={`font-sten cursor-pointer grid grid-cols-1`}
     >
       <div
         className={`bg-cover ${getBG()} ease-in-out duration-300 z-0 ${getMainBorder(

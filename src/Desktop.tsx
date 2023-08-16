@@ -27,7 +27,6 @@ const Desktop = () => {
   const [currentPage, setCurrentPage] = useState(0)
   const [profileSize, setProfileSize] = useState(0)
   const [consoleHeight, setConsoleHeight] = useState(0)
-  const [pageWidth, setPageWidth] = useState(0)
   const [centerConsoleWidth, setCenterConsoleWidth] = useState(0)
   const [sideConsoleSize, setSideConsoleSize] = useState(0)
   const [schemesSize, setSchemesSize] = useState(0)
@@ -49,11 +48,6 @@ const Desktop = () => {
       document.getElementById('full-console') === null
         ? 0 // @ts-ignore
         : document.getElementById('full-console').clientHeight
-    )
-    setPageWidth(
-      document.getElementById('full-console') === null
-        ? 0 // @ts-ignore
-        : document.getElementById('full-console').clientWidth
     )
     setCenterConsoleWidth(
       document.getElementById('center-console') === null
@@ -258,7 +252,7 @@ const Desktop = () => {
           >
             <div
               id={`tools`}
-              className={`h-full w-full flex flex-col font-[stencil] ${getMainBG(
+              className={`h-full w-full flex flex-col font-sten ${getMainBG(
                 scheme
               )} overflow-hidden ${
                 isLandscape ? `mb-1 rounded-t-lg` : `rounded-l-lg`
@@ -284,13 +278,15 @@ const Desktop = () => {
             </div>
             <div
               id={`awards`}
-              className={`h-full w-full flex flex-col font-[stencil] ${
+              className={`h-full w-full flex flex-col font-sten ${
                 isLandscape ? `pt-1 rounded-b-lg` : `rounded-r-lg`
               } overflow-hidden ${getMainBG(scheme)}`}
             >
               <p
                 style={{ fontSize: titleSize + 'px' }}
-                className={`w-full text-center ${getTitleText(scheme)}`}
+                className={`w-full font-sten text-center ${getTitleText(
+                  scheme
+                )}`}
               >
                 Certifications
               </p>

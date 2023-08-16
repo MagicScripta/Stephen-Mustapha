@@ -17,6 +17,7 @@ module.exports = {
       },
       fontFamily: {
         main: 'Alumni Sans',
+        sten: ['"Saira Stencil One"', 'cursive'],
       },
       backgroundImage: {
         sports: "url('./assets/sports.jpg')",
