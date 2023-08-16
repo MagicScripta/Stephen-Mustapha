@@ -137,7 +137,7 @@ const Desktop = () => {
         </div>
         <div
           className={`text-white grid gap-4 ${
-            isLandscape ? `grid-cols-7 ` : `grid-rows-7 w-5/6 mx-auto pb-10 `
+            isLandscape ? `grid-cols-7 ` : `grid-rows-20 w-5/6 mx-auto pb-10 `
           } h-full`}
           style={{ height: consoleHeight }}
         >
@@ -146,7 +146,7 @@ const Desktop = () => {
             className={`mr-0 ml-auto rounded-lg ${
               isLandscape
                 ? `grid grid-rows-3 col-span-2 w-5/6`
-                : `grid grid-cols-3 row-span-2 min-h-full min-w-full`
+                : `grid grid-cols-3 row-span-3 min-h-full min-w-full`
             }`}
           >
             <Banner
@@ -174,7 +174,7 @@ const Desktop = () => {
           <div
             id={`center-console`}
             className={`flex flex-col font-main text-2xl overflow-hidden ${
-              isLandscape ? `px-3 col-span-3 h-full ` : `row-span-6 h-full`
+              isLandscape ? `px-3 col-span-3 h-full ` : `row-[span_13] h-full`
             }`}
           >
             <div
@@ -247,7 +247,7 @@ const Desktop = () => {
             className={`flex overflow-hidden ${
               isLandscape
                 ? `ml-0 w-5/6 col-span-2 flex-col `
-                : `row-span-2 min-w-full flex-row `
+                : `row-span-4 min-w-full flex-row `
             }`}
           >
             <div

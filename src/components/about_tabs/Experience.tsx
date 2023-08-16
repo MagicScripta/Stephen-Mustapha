@@ -43,10 +43,10 @@ const Experience = () => {
         company's first website and product. I gained experience using workflow
         tools like Git and JIRA while learning to carry everyone along with my
         work and follow them in theirs. A good majority of the work I did was on
-        the company's brochure page and was able to gain experience in multiple
-        languages and frameworks like JavaScript, Java, VueJS and Cypress. I am
-        truly grateful for the work culture and passion I found at Rotulu and
-        you are welcome to{' '}
+        the company's brochure page and I was able to gain experience in
+        multiple languages and frameworks like JavaScript, Java, VueJS and
+        Cypress. I am truly grateful for the work culture and passion I found at
+        Rotulu and you are welcome to{' '}
         <a
           className={`font-bold hover:text-black`}
           target={`_blank`}

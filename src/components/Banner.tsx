@@ -56,7 +56,7 @@ const Banner = (props: aboutProps) => {
       className={`font-sten cursor-pointer grid grid-cols-1`}
     >
       <div
-        className={`bg-cover ${getBG()} ease-in-out duration-300 z-0 ${getMainBorder(
+        className={`bg-cover bg-center ${getBG()} ease-in-out duration-300 z-0 ${getMainBorder(
           scheme
         )} ${
           isHover ? `blur-[2px]` : `blur-[1px] border-2`
