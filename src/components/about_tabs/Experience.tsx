@@ -14,8 +14,8 @@ const Experience = () => {
         </a>
         <hr />
         <br />
-        I am a fourth-year computer science major at Memorial University of
-        Newfoundland and set to graduate at the end of the year. I've had the
+        I am a computer science Graduate from Memorial University of
+        Newfoundland with fullstack internship experience. I've had the
         opportunity to learn from so many experienced professors at MUN taking
         courses related to Machine Learning, Game Programming(AI), Algorithms
         design and analysis and even just general programming guidelines and
